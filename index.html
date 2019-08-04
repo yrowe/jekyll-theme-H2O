@@ -62,6 +62,104 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-深入理解jvm笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/03/深入理解jvm笔记/" class="article-date">
+  <time datetime="2019-08-03T07:38:26.000Z" itemprop="datePublished">2019-08-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/03/深入理解jvm笔记/">深入理解jvm笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="JVM学习大纲"><a href="#JVM学习大纲" class="headerlink" title="JVM学习大纲"></a>JVM学习大纲</h2><ul>
+<li>JVM介绍</li>
+<li>HotSpot虚拟机讲解</li>
+<li>垃圾收集方式详解</li>
+<li>垃圾收集算法详解</li>
+<li>垃圾收集器详解</li>
+<li>分代垃圾收集机制详解</li>
+<li>新生代讲解</li>
+<li>老年代讲解</li>
+<li>G1收集器分析与实例</li>
+<li>常见且重要虚拟机参数示例</li>
+<li>栈</li>
+<li>方法区</li>
+<li>线程共享内存区</li>
+<li>根搜索算法</li>
+<li>Serial收集器</li>
+<li>ParNew收集器</li>
+<li>类加载机制详解</li>
+<li>类加载的双亲委托机制</li>
+<li>字节码文件生成与分析</li>
+<li>魔数</li>
+<li>常量池与方法表</li>
+<li>各种指令详解</li>
+<li>锁详解</li>
+<li>线程安全</li>
+<li>偏向锁、自旋锁与轻量级锁</li>
+<li>JIT编译器</li>
+<li>GC日志生成与分析</li>
+<li>虚拟机监控工具详解</li>
+<li>jConsole使用方式详解</li>
+<li>何为逃逸与逃逸分析</li>
+<li>方法内联</li>
+<li>虚拟机内存模型详解</li>
+</ul>
+<h2 id="类加载器深入解析与阶段分解"><a href="#类加载器深入解析与阶段分解" class="headerlink" title="类加载器深入解析与阶段分解"></a>类加载器深入解析与阶段分解</h2><h3 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h3><ul>
+<li>在java代码中， 类型的加载、连接与初始化过程都是在程序运行期间完成的</li>
+<li>提供了更大的灵活性， 增加了更多的可能性。</li>
+</ul>
+<h3 id="类加载器深入剖析"><a href="#类加载器深入剖析" class="headerlink" title="类加载器深入剖析"></a>类加载器深入剖析</h3><ul>
+<li>Java虚拟机与程序的生命周期</li>
+<li>在如下几种情况下， Java虚拟机将结束生命周期<ul>
+<li>执行了System.exit()方法</li>
+<li>程序正常执行结束</li>
+<li>程序在执行过程中遇到了异常或错误而异常终止</li>
+<li>由于操作系统出现错误而导致Java虚拟机进程终止</li>
+</ul>
+</li>
+</ul>
+<h3 id="类的加载、连接与初始化"><a href="#类的加载、连接与初始化" class="headerlink" title="类的加载、连接与初始化"></a>类的加载、连接与初始化</h3><ul>
+<li>加载: 查找并加载类的二进制数据</li>
+<li>连接：<ul>
+<li>验证： 确保被加载的类的正确性</li>
+<li>准备： 为类的<font color="red">静态变量</font>分配内存， 并将其初始化为<font color="red">默认值</font></li>
+<li>解析：<font color="red">把类中的符号引用转换为直接引用</font></li>
+</ul>
+</li>
+<li><font color="red">初始化： 为类的静态变量赋予正确的初始值</font></li>
+</ul>
+<h3 id="类的使用与卸载"><a href="#类的使用与卸载" class="headerlink" title="类的使用与卸载"></a>类的使用与卸载</h3><ul>
+<li>使用</li>
+<li>卸载</li>
+</ul>
+<h2 id="类的加载连接与初始化过程详解"><a href="#类的加载连接与初始化过程详解" class="headerlink" title="类的加载连接与初始化过程详解"></a>类的加载连接与初始化过程详解</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjywe4ff50003joump48dixzy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-java一些基本语法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/03/java一些基本语法/" class="article-date">
@@ -101,7 +199,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywe28le00006cumhmgossvw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywe4ff10001joumgr0y5snn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +236,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjywe28nv00026cumy8zpthws" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjywe4ff40002joumkdmbj3xq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/hello-world/" data-id="cjywe28n900016cumnr2xp3zr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/hello-world/" data-id="cjywe4feu0000joumbzmuc5il" class="article-share-link">Share</a>
       
       
     </footer>
@@ -226,6 +324,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/08/03/深入理解jvm笔记/">深入理解jvm笔记</a>
+          </li>
         
           <li>
             <a href="/2019/08/03/java一些基本语法/">java一些基本语法</a>
