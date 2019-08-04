@@ -62,6 +62,251 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-java反射与泛型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/04/java反射与泛型/" class="article-date">
+  <time datetime="2019-08-04T07:10:12.000Z" itemprop="datePublished">2019-08-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/04/java反射与泛型/">java反射与泛型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="反射1-Class类"><a href="#反射1-Class类" class="headerlink" title="反射1-Class类"></a>反射1-Class类</h1><ul>
+<li>JVM为每个加载的class创建对应的Class实例来保存class的所有信息</li>
+<li>获取一个class对应的Class实例后， 就可以获取该class的所有信息</li>
+<li>通过Class实例获取class信息的方法称为反射（Reflection）</li>
+<li>JVM总是动态加载class， 可以在运行期根据条件控制加载class</li>
+</ul>
+<h1 id="反射2-访问字段"><a href="#反射2-访问字段" class="headerlink" title="反射2-访问字段"></a>反射2-访问字段</h1><ul>
+<li><p>Field对象封装了字段的所有信息</p>
+</li>
+<li><p>通过Class实例的方法可以获取Field实例:</p>
+<p>  getField/getFields/getDeclaredField/getDeclaredFields</p>
+</li>
+<li><p>通过Field实例可以获取字段信息：</p>
+<p>getName/getType/getModifiers</p>
+</li>
+<li><p>通过Field实例可以读取或设置某个对象的字段：</p>
+<p>get(Object instance)/set(Object instance, Object fieldValue)</p>
+</li>
+<li><p>通过设置setAccessible(true)来访问非public字段</p>
+</li>
+</ul>
+<h1 id="反射3-调用方法"><a href="#反射3-调用方法" class="headerlink" title="反射3-调用方法"></a>反射3-调用方法</h1><ul>
+<li><p>Method对象封装了方法的所有信息</p>
+</li>
+<li><p>通过Class实例的方法可以获取Method实例:</p>
+<p>getMethod/getMethods/getDeclaredMethod/getDeclaredMethods</p>
+</li>
+<li><p>通过Method实例可以获取方法信息：</p>
+<p>getName/getReturnType/getParameterTypes/getModifiers</p>
+</li>
+<li><p>通过Method实例可以调用某个对象的方法：</p>
+<p>Object invoke(Object instance, Object .. parameters)</p>
+</li>
+<li><p>通过设置setAccessible(true)来访问非public方法</p>
+</li>
+</ul>
+<h1 id="反射4-调用构造方法"><a href="#反射4-调用构造方法" class="headerlink" title="反射4-调用构造方法"></a>反射4-调用构造方法</h1><ul>
+<li><p>Constructor对象封装了构造方法的所有信息</p>
+</li>
+<li><p>通过Class实例的方法可以获取Constructor实例：</p>
+<p>getConstructor/getConstructors/getDeclaredConstructor/getDeclaredConstructors</p>
+</li>
+<li><p>通过Constructor实例可以创建一个实例对象:</p>
+<p>newInstance(Object… parameters)</p>
+</li>
+<li><p>通过设置setAccessible(true)来访问非public构造方法</p>
+</li>
+</ul>
+<h1 id="反射5-获取继承关系"><a href="#反射5-获取继承关系" class="headerlink" title="反射5-获取继承关系"></a>反射5-获取继承关系</h1><ul>
+<li>通过Class对象可以获取继承关系：<ul>
+<li>getSuperclass()</li>
+<li>getInterfaces()</li>
+</ul>
+</li>
+<li>通过Class对象的isAssignableFrom()方法可以判断一个向上转型是否正确</li>
+</ul>
+<h1 id="注解1-使用注解"><a href="#注解1-使用注解" class="headerlink" title="注解1- 使用注解"></a>注解1- 使用注解</h1><ul>
+<li>注解(Annotation)是Java语言用于工具处理的标注</li>
+<li>注解可以配置参数， 没有指定配置的参数使用默认值</li>
+<li>如果参数名称是value， 可以省略名称</li>
+</ul>
+<h1 id="注解2-定义注解"><a href="#注解2-定义注解" class="headerlink" title="注解2- 定义注解"></a>注解2- 定义注解</h1><ul>
+<li>使用@interface定义注解</li>
+<li>可定义多个参数和默认值， 核心参数使用value名称</li>
+<li>必须设置@Target来指定Annotation可以应用的范围</li>
+<li>应当设置@Retention为RUNTIME便于运行期读取该Annotation</li>
+</ul>
+<h1 id="注解3-处理注解"><a href="#注解3-处理注解" class="headerlink" title="注解3 - 处理注解"></a>注解3 - 处理注解</h1><ul>
+<li><p>可以在运行期通过反射读取RUMTIME类型的注解</p>
+<p><font color="red">不要漏写@Retention(RetentionPolicy.RUNTIME)</font></p>
+</li>
+<li><p>可以通过工具处理注解来实现相应的功能：</p>
+<ul>
+<li>对JavaBean的属性值按规则进行检查</li>
+<li>JUnit会自动运行@Test注解的测试方法</li>
+</ul>
+</li>
+</ul>
+<h1 id="泛型1-什么是泛型"><a href="#泛型1-什么是泛型" class="headerlink" title="泛型1 - 什么是泛型"></a>泛型1 - 什么是泛型</h1><ul>
+<li>泛型就是编写模板代码来适应任意类型</li>
+<li>不必对类型进行强制转换</li>
+<li>编译器将对类型进行检查</li>
+<li>注意泛型的继承关系:<ul>
+<li>可以把ArrayList<integer>向上转型为List<integer>(<font color="red">T不能变!</font>)</integer></integer></li>
+<li><font color="red">不能</font>把ArrayList<integer>向上转型为ArrayList<number></number></integer></li>
+</ul>
+</li>
+</ul>
+<h1 id="泛型2-使用泛型"><a href="#泛型2-使用泛型" class="headerlink" title="泛型2-使用泛型"></a>泛型2-使用泛型</h1><ul>
+<li><p>使用泛型时， 把泛型类型<t>替换为需要的class类型：</t></p>
+<p>List<string> list = new ArrayList<string>();</string></string></p>
+</li>
+<li><p>可以省略编译器能自动推断出的类型：</p>
+<p>List<string> list = new ArrayList&lt;&gt;();</string></p>
+</li>
+<li><p>不指定泛型参数类型时， 编译器会给出警告， 且只能将<t>视为Object类型</t></p>
+</li>
+</ul>
+<h1 id="泛型3-编写泛型"><a href="#泛型3-编写泛型" class="headerlink" title="泛型3 - 编写泛型"></a>泛型3 - 编写泛型</h1><ul>
+<li><p>编写泛型时， 需要定义泛型类型<t></t></p>
+<p>public class Pair<t>{…}</t></p>
+</li>
+<li><p>静态方法不能引用泛型类型<t>， 必须定义其他类型<k>来实现“泛型”</k></t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;K&gt; <span class="function">Pair <span class="title">create</span><span class="params">(K first, K last)</span></span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>泛型可以同时定义多种类型&lt;T, K&gt;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Pair</span>&lt;<span class="title">T</span>, <span class="title">K</span>&gt;</span>&#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h1 id="泛型4-擦拭法"><a href="#泛型4-擦拭法" class="headerlink" title="泛型4 - 擦拭法"></a>泛型4 - 擦拭法</h1><ul>
+<li>Java的泛型采用擦拭法实现</li>
+<li>擦拭法决定了泛型<t>:<ul>
+<li>不能是基本类型， 例如：int</li>
+<li>不能获取带泛型类型的Class， 例如： Pair<string>.class</string></li>
+<li>不能判断带泛型类型的类型， 例如： x instanceof Pair<string></string></li>
+<li>不能实例化T类型， 例如：new T();</li>
+<li>泛型方法要防止重复定义方法， 例如: public boolean equals(T obj)</li>
+</ul>
+</t></li>
+<li>子类可以获取父类的泛型类型<t></t></li>
+</ul>
+<h1 id="泛型5-extends通配符"><a href="#泛型5-extends通配符" class="headerlink" title="泛型5 - extends通配符"></a>泛型5 - extends通配符</h1><ul>
+<li><p>使用类型&lt;? extends Number&gt;通配符作为方法参数表示：</p>
+<ul>
+<li><p>方法内部可以调用Number引用的方法</p>
+<p>Number n = obj.getXxx();</p>
+</li>
+<li><p>方法内部无法调用传入Number引用的方法（null除外）</p>
+<p><font color="red">obj.setXxx(Number n)</font></p>
+</li>
+</ul>
+</li>
+<li><p>使用类型<t extends number>定义泛型类时表示：</t></p>
+<ul>
+<li>泛型类型限定为Number或Number的子类</li>
+</ul>
+</li>
+</ul>
+<h1 id="泛型6-super通配符"><a href="#泛型6-super通配符" class="headerlink" title="泛型6 - super通配符"></a>泛型6 - super通配符</h1><ul>
+<li><p>使用类型&lt;? super Integer&gt;通配符作为方法参数时表示:</p>
+<ul>
+<li><p>方法内部可以调用传入Integer引用的方法</p>
+<p>obj.setXxx(Integer n)</p>
+</li>
+<li><p>方法内部无法调用获取Integer引用的方法(Object除外)</p>
+<p><font color="red">Integer n = obj.getXxx()</font></p>
+</li>
+</ul>
+</li>
+<li><p>使用类似<t super integer>定义泛型类时表示：</t></p>
+<ul>
+<li>泛型类型限定为Integer或Integer的超类</li>
+</ul>
+</li>
+<li><p>无限定通配符&lt;?&gt;很少使用， 可以用<t>替换</t></p>
+</li>
+</ul>
+<h1 id="泛型7-泛型与反射"><a href="#泛型7-泛型与反射" class="headerlink" title="泛型7 - 泛型与反射"></a>泛型7 - 泛型与反射</h1><ul>
+<li>部分反射API是泛型：<ul>
+<li>Class<t></t></li>
+<li>Constructor<t></t></li>
+</ul>
+</li>
+<li>可以声明带泛型的数组， 但不能直接创建带泛型的数组， 必须强制转型</li>
+<li>可以通过Array.newInstance(Class<t>, int)创建T[]数组， 需要强制转型</t></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/04/java反射与泛型/" data-id="cjywo5dps0001i4umeswajwlw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jvm-server-client模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/04/jvm-server-client模式/" class="article-date">
+  <time datetime="2019-08-04T05:28:20.000Z" itemprop="datePublished">2019-08-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/04/jvm-server-client模式/">jvm server client模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>JVM有两种运行模式Server与Client。两种模式的区别在于，Client模式启动速度较快，Server模式启动较慢；但是启动进入稳定期长期运行之后Server模式的程序运行速度比Client要快很多。这是因为Server模式启动的JVM采用的是重量级的虚拟机，对程序采用了更多的优化；而Client模式启动的JVM采用的是轻量级的虚拟机。所以Server启动慢，但稳定后速度比Client远远要快。</p>
+<h3 id="1-当前是Client-or-Server？"><a href="#1-当前是Client-or-Server？" class="headerlink" title="1. 当前是Client or Server？"></a>1. 当前是Client or Server？</h3><p>使用<a href="http://lib.csdn.net/base/java" target="_blank" rel="noopener">Java</a> -version命令就能显示出当前虚拟机处于哪种模式。<br><strong>Client：</strong><br>如下图所示，可以看到HotSpot虚拟机采用Client模式启动的。 </p>
+<p><strong>Server：</strong><br>如下图所示，可以看到HotSpot虚拟机采用Server模式启动的。另外我们也能看到该虚拟机是64位的。如果像上面的Client图中那样不显示位数，则是32位虚拟机。所以使用java -version也能查看虚拟机是32位还是64位。 </p>
+<p><strong>在部分JDK1.6版本和后续的JDK版本(64位系统)中，-client参数已经不起作用了，Server模式成为唯一</strong><br><img src="https://static.oschina.net/uploads/space/2018/0124/150223_Ga9j_2621611.png" alt="images"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/04/jvm-server-client模式/" data-id="cjywo5dpx0003i4umxicph7mu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-深入理解jvm笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/03/深入理解jvm笔记/" class="article-date">
@@ -150,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjywe4ff50003joump48dixzy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjywo5dq00005i4um560cixft" class="article-share-link">Share</a>
       
       
     </footer>
@@ -193,13 +438,13 @@
 
 <h1 id="List一些用法"><a href="#List一些用法" class="headerlink" title="List一些用法"></a>List一些用法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明list</span></span><br><span class="line">List&lt;Integer&gt; l = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line"><span class="comment">//两种初始化赋值的方式</span></span><br><span class="line"></span><br><span class="line">ArrayList&lt;String&gt; lists1 = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">lists1.add(<span class="string">"test1"</span>);</span><br><span class="line">lists1.add(<span class="string">"test2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Method 2 , (double brace initialization)</span></span><br><span class="line">ArrayList&lt;String&gt; lists2 = <span class="keyword">new</span> ArrayList&lt;String&gt;()&#123;&#123;</span><br><span class="line">    add(<span class="string">"test1"</span>);</span><br><span class="line">    add(<span class="string">"test2"</span>);</span><br></pre></td></tr></table></figure>
 
-<h1 id="Java-数组Swap"><a href="#Java-数组Swap" class="headerlink" title="Java 数组Swap"></a>Java 数组Swap</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Java-数组Swap和Reverse实现"><a href="#Java-数组Swap和Reverse实现" class="headerlink" title="Java 数组Swap和Reverse实现"></a>Java 数组Swap和Reverse实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> st)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = st, j = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">    swap(nums, i, j);</span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywe4ff10001joumgr0y5snn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywo5dpv0002i4umooavmfxt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +481,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjywe4ff40002joumkdmbj3xq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjywo5dpy0004i4um883p3uzi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -285,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/hello-world/" data-id="cjywe4feu0000joumbzmuc5il" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/hello-world/" data-id="cjywo5dpm0000i4umpab765az" class="article-share-link">Share</a>
       
       
     </footer>
@@ -326,6 +571,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/04/java反射与泛型/">java反射与泛型</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/04/jvm-server-client模式/">jvm server client模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/03/深入理解jvm笔记/">深入理解jvm笔记</a>
           </li>
         
@@ -335,10 +588,6 @@
         
           <li>
             <a href="/2019/08/02/hexo-tutorial/">hexo tutorial</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/02/hello-world/">Hello World</a>
           </li>
         
       </ul>

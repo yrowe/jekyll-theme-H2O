@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="初始化数组1int[] nums = new int[]&amp;#123;2,7,11,15&amp;#125;;  HashMap一些用法 K,V 需要是包装类， new后面的尖括号里 具体类可以省略。 put, get分别为向容器中放值和取值. containsKeys则判断容器中是否有对应的key  12345Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-04T02:43:33.255Z">
+<meta property="og:updated_time" content="2019-08-04T06:37:52.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java一些基本语法">
 <meta name="twitter:description" content="初始化数组1int[] nums = new int[]&amp;#123;2,7,11,15&amp;#125;;  HashMap一些用法 K,V 需要是包装类， new后面的尖括号里 具体类可以省略。 put, get分别为向容器中放值和取值. containsKeys则判断容器中是否有对应的key  12345Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt">
@@ -97,13 +97,13 @@
 
 <h1 id="List一些用法"><a href="#List一些用法" class="headerlink" title="List一些用法"></a>List一些用法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//声明list</span></span><br><span class="line">List&lt;Integer&gt; l = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line"><span class="comment">//两种初始化赋值的方式</span></span><br><span class="line"></span><br><span class="line">ArrayList&lt;String&gt; lists1 = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">lists1.add(<span class="string">"test1"</span>);</span><br><span class="line">lists1.add(<span class="string">"test2"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//Method 2 , (double brace initialization)</span></span><br><span class="line">ArrayList&lt;String&gt; lists2 = <span class="keyword">new</span> ArrayList&lt;String&gt;()&#123;&#123;</span><br><span class="line">    add(<span class="string">"test1"</span>);</span><br><span class="line">    add(<span class="string">"test2"</span>);</span><br></pre></td></tr></table></figure>
 
-<h1 id="Java-数组Swap"><a href="#Java-数组Swap" class="headerlink" title="Java 数组Swap"></a>Java 数组Swap</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Java-数组Swap和Reverse实现"><a href="#Java-数组Swap和Reverse实现" class="headerlink" title="Java 数组Swap和Reverse实现"></a>Java 数组Swap和Reverse实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> st)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = st, j = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">    swap(nums, i, j);</span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywe4ff10001joumgr0y5snn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywo5dpv0002i4umooavmfxt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -161,6 +161,14 @@
       <ul>
         
           <li>
+            <a href="/2019/08/04/java反射与泛型/">java反射与泛型</a>
+          </li>
+        
+          <li>
+            <a href="/2019/08/04/jvm-server-client模式/">jvm server client模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/03/深入理解jvm笔记/">深入理解jvm笔记</a>
           </li>
         
@@ -170,10 +178,6 @@
         
           <li>
             <a href="/2019/08/02/hexo-tutorial/">hexo tutorial</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/02/hello-world/">Hello World</a>
           </li>
         
       </ul>
