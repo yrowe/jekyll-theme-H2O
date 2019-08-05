@@ -62,6 +62,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/05/单例模式/" class="article-date">
+  <time datetime="2019-08-05T08:07:25.000Z" itemprop="datePublished">2019-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/05/单例模式/">单例模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>based on 《实战java高并发程序设计》第五章</p>
+<h1 id="单例模式好处"><a href="#单例模式好处" class="headerlink" title="单例模式好处"></a>单例模式好处</h1><ol>
+<li>对于频繁使用的对象， 可以省略new操作花费的时间， 这对于那些重量级对象而言， 是非常客观的一笔系统开销。</li>
+<li>由于new操作的次数减少， 因而对系统内存的使用频率也会降低， 这将减轻GC压力， 缩短GC停顿时间。</li>
+</ol>
+<h1 id="简单的单例实现"><a href="#简单的单例实现" class="headerlink" title="简单的单例实现"></a>简单的单例实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Singleton&#123;</span><br><span class="line">        System.out.println(<span class="string">"Singleton is create"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>Singleton的构造函数设置为private， 以保证系统中不会有人意外创建多余的实例。</li>
+<li>工厂方法getInstance()必须是static的， 所以instance也是static的</li>
+<li>对于静态成员instance，它会在类第一次初始化的时候被创建。 这个时刻并不一定是getInstance（）方法<font color="red">第一次被调用</font>的时候</li>
+<li>类初始化只有一次， 因此instance实例永远只会被创建一次</li>
+</ul>
+<h1 id="懒汉单例-LazySingleton-实现"><a href="#懒汉单例-LazySingleton-实现" class="headerlink" title="懒汉单例(LazySingleton)实现"></a>懒汉单例(LazySingleton)实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"LazySingleton is create"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> LazySingleton instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="keyword">null</span>)</span><br><span class="line">            instance = <span class="keyword">new</span> LazySingleton();</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心思想</strong></p>
+<p>并不需要在类第一次初始化的时候就创建instance, 而仅当getInstance方法被第一次调用时， 创建单例对象。</p>
+<p>为了防止对象被多次创建， 我们不得不使用sychronzied关键字方法进行同步。</p>
+<p><strong>优点</strong></p>
+<ul>
+<li>充分利用了延迟加载， 只在真正需要时创建对象。</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>并发环境加锁， 竞争激烈的场合对性能可能产生一定的影响。</li>
+</ul>
+<h1 id="结合上述两种方法优势的单例实现"><a href="#结合上述两种方法优势的单例实现" class="headerlink" title="结合上述两种方法优势的单例实现"></a>结合上述两种方法优势的单例实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticSingleton</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">StaticSingleton</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"StaticSingleton is create."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">static</span> StaticSingleton instance = <span class="keyword">new</span> StaticSingleton();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StaticSingleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>getInstance方法中没有锁， 这使得在高并发环境侠行能优越。 其次， 只有在getInstance方法第一次被调用时， StaticSingleton的实例才会被创建。</p>
+<p>内部类SingletonHolder被声明为private， 这使得我们不可能在外部访问初始化它。 只可能在getInstance方法内部对SingletonHolder类初始化， 利用虚拟机的类初始化机制创建单例</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/08/05/单例模式/" data-id="cjyy6ipld000454umog0mkich" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="w-gitbook-入门" class="article article-type-w" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/08/04/gitbook-入门/" class="article-date">
@@ -85,11 +154,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><a href="https://www.jianshu.com/p/421cc442f06c" target="_blank" rel="noopener">快速入门gitbook</a></p>
+<p><a href="https://blog.csdn.net/qq_39482771/article/details/89436833" target="_blank" rel="noopener">设置淘宝镜像</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/04/gitbook-入门/" data-id="cjywrk9fd000054umti55fibg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/04/gitbook-入门/" data-id="cjyy6ipkz000054umzhvet3kg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -294,7 +364,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/04/java反射与泛型/" data-id="cjywrk9fq000554umy75klf3y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/04/java反射与泛型/" data-id="cjyy6iplc000354um4hdybf13" class="article-share-link">Share</a>
       
       
     </footer>
@@ -334,7 +404,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/04/jvm-server-client模式/" data-id="cjywrk9fp000454umowl4i4ci" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/04/jvm-server-client模式/" data-id="cjyy6ipla000254um9a4u8ae0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -432,7 +502,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjywrk9fn000354umk059qstp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjyy6iplm000754umbkkyxaxs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +551,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjywrk9fm000254umgraokejg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjyy6iplf000554um8i4y1uxg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,7 +588,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjywrk9fk000154umlp2t0jau" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/hexo-tutorial/" data-id="cjyy6ipl7000154umvl4hsc6i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -538,9 +608,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/java/" style="font-size: 10px;">java</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -559,6 +643,10 @@
       <ul>
         
           <li>
+            <a href="/2019/08/05/单例模式/">单例模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/08/04/gitbook-入门/">gitbook 入门</a>
           </li>
         
@@ -572,10 +660,6 @@
         
           <li>
             <a href="/2019/08/03/深入理解jvm笔记/">深入理解jvm笔记</a>
-          </li>
-        
-          <li>
-            <a href="/2019/08/03/java一些基本语法/">java一些基本语法</a>
           </li>
         
       </ul>
