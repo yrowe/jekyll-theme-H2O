@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="初始化数组1int[] nums = new int[]&amp;#123;2,7,11,15&amp;#125;;  HashMap一些用法 K,V 需要是包装类， new后面的尖括号里 具体类可以省略。 put, get分别为向容器中放值和取值. containsKeys则判断容器中是否有对应的key  12345Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-04T06:37:52.636Z">
+<meta property="og:updated_time" content="2019-08-05T12:07:09.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java一些基本语法">
 <meta name="twitter:description" content="初始化数组1int[] nums = new int[]&amp;#123;2,7,11,15&amp;#125;;  HashMap一些用法 K,V 需要是包装类， new后面的尖括号里 具体类可以省略。 put, get分别为向容器中放值和取值. containsKeys则判断容器中是否有对应的key  12345Map&amp;lt;Integer, Integer&amp;gt; map = new HashMap&amp;lt">
@@ -99,11 +99,20 @@
 
 <h1 id="Java-数组Swap和Reverse实现"><a href="#Java-数组Swap和Reverse实现" class="headerlink" title="Java 数组Swap和Reverse实现"></a>Java 数组Swap和Reverse实现</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = nums[i];</span><br><span class="line">        nums[i] = nums[j];</span><br><span class="line">        nums[j] = temp;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> st)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = st, j = nums.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">    swap(nums, i, j);</span><br><span class="line">        i++;</span><br><span class="line">        j--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="java二维数组初始化及获取长宽"><a href="#java二维数组初始化及获取长宽" class="headerlink" title="java二维数组初始化及获取长宽"></a>java二维数组初始化及获取长宽</h1><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>1.在定义时初始化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span>[][] a = <span class="keyword">new</span> <span class="keyword">double</span>[][] &#123;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;,&#123;<span class="number">4</span>,<span class="number">2</span>,<span class="number">7</span>&#125;&#125;;</span><br><span class="line"><span class="keyword">double</span>[][] b = <span class="keyword">new</span> <span class="keyword">double</span>[][] &#123;&#123;<span class="number">3</span>,<span class="number">3</span>&#125;,&#123;<span class="number">1</span>,<span class="number">1</span>&#125;,&#123;<span class="number">2</span>,<span class="number">2</span>&#125;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如图，a 中的 {1,2,3} 即为第一行，{4,2,7}为第二行。</p>
+<p>2.先定空间，随后赋值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> [][] container = <span class="keyword">new</span> <span class="keyword">double</span>[<span class="number">3</span>][<span class="number">4</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>;i++) &#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>;j++) &#123;</span><br><span class="line">		container[i][j] = <span class="number">4.5</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="获取长款"><a href="#获取长款" class="headerlink" title="获取长款"></a>获取长款</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取行数---3行</span></span><br><span class="line"><span class="keyword">int</span> lenY = a.length;</span><br><span class="line"><span class="comment">//获取列数---4列</span></span><br><span class="line"><span class="keyword">int</span> lenX = a[<span class="number">0</span>].length;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjyy6jhct000130umpj1n8d64" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/java一些基本语法/" data-id="cjyzueh6k0002tkumb8cvag2d" class="article-share-link">Share</a>
       
       
     </footer>

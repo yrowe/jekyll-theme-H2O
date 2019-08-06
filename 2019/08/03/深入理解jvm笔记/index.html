@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="JVM学习大纲 JVM介绍 HotSpot虚拟机讲解 垃圾收集方式详解 垃圾收集算法详解 垃圾收集器详解 分代垃圾收集机制详解 新生代讲解 老年代讲解 G1收集器分析与实例 常见且重要虚拟机参数示例 栈 方法区 线程共享内存区 根搜索算法 Serial收集器 ParNew收集器 类加载机制详解 类加载的双亲委托机制 字节码文件生成与分析 魔数 常量池与方法表 各种指令详解 锁详解 线程安全 偏向锁">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-04T03:12:22.329Z">
+<meta property="og:updated_time" content="2019-08-06T10:50:25.983Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解jvm笔记">
 <meta name="twitter:description" content="JVM学习大纲 JVM介绍 HotSpot虚拟机讲解 垃圾收集方式详解 垃圾收集算法详解 垃圾收集器详解 分代垃圾收集机制详解 新生代讲解 老年代讲解 G1收集器分析与实例 常见且重要虚拟机参数示例 栈 方法区 线程共享内存区 根搜索算法 Serial收集器 ParNew收集器 类加载机制详解 类加载的双亲委托机制 字节码文件生成与分析 魔数 常量池与方法表 各种指令详解 锁详解 线程安全 偏向锁">
@@ -148,11 +148,79 @@
 <li>使用</li>
 <li>卸载</li>
 </ul>
-<h2 id="类的加载连接与初始化过程详解"><a href="#类的加载连接与初始化过程详解" class="headerlink" title="类的加载连接与初始化过程详解"></a>类的加载连接与初始化过程详解</h2>
+<h3 id="类的加载连接与初始化过程"><a href="#类的加载连接与初始化过程" class="headerlink" title="类的加载连接与初始化过程"></a>类的加载连接与初始化过程</h3><ul>
+<li><p>Java程序对类的使用方式可分为两种</p>
+<ul>
+<li>主动使用</li>
+<li>被动使用</li>
+</ul>
+</li>
+<li><p>所有的Java虚拟机必须实现在每个类或接口被Java程序“<font color="red">首次主动使用</font>”时才初始化他们</p>
+</li>
+<li><p>主动使用</p>
+<ul>
+<li><p>创建类的实例</p>
+</li>
+<li><p>访问某个类或接口的静态变量， 或者对该静态变量赋值</p>
+</li>
+<li><p>调用类的静态方法</p>
+</li>
+<li><p>反射（如 Class.forName(“com.test.Test”))</p>
+</li>
+<li><p>初始化一个类的子类</p>
+</li>
+<li><p>Java虚拟机启动时被表明为启动类的类(Java Test)</p>
+</li>
+<li><p>JDK 1.7开始提供的动态语言支持；</p>
+<p>java.lang.invoke.MethodHandle实例的解析结果REF_getStatic，REF_putStatic, REF_invokeStatic句柄所对应的类没有初始化， 则初始化（了解）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="类的加载"><a href="#类的加载" class="headerlink" title="类的加载"></a>类的加载</h3><p>类的加载指的是将类的.class文件中的二进制数据读入到内存中， 将其放在运行时数据区的方法区内， 然后再内存中创建一个java.lang.Class对象（规范并未说明Class对象位于哪里， HotSpot虚拟机将其放在了方法区中）用来封装类在方法区内的数据结构</p>
+<ul>
+<li>加载.class文件的方式<ul>
+<li>从本地系统中直接加载</li>
+<li>通过网络下载.class文件</li>
+<li>从zip, jar等归档文件中加载.class文件</li>
+<li>从专有数据库中提取.class文件</li>
+<li><font color="red">将java源文件动态编译为.class文件</font>(动态代理会用到)</li>
+</ul>
+</li>
+</ul>
+<p><strong>一个例子：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"test1"</span>);</span><br><span class="line">        System.out.println(MyParent1.str);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyParent1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String str = <span class="string">"welcome myparent1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Myparent1 static block"</span> );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyChild1</span> <span class="keyword">extends</span> <span class="title">MyParent1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String str2 = <span class="string">"welcome mychild1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"MyChild1 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出:</strong></p>
+<p>test1<br>Myparent1 static block<br>welcome myparent1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyTest1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"test2:"</span>);</span><br><span class="line">        System.out.println(MyChild1.str);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyParent1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String str = <span class="string">"welcome myparent1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Myparent1 static block"</span> );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyChild1</span> <span class="keyword">extends</span> <span class="title">MyParent1</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> String str2 = <span class="string">"welcome mychild1"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"MyChild1 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出</strong></p>
+<p>test2:<br>Myparent1 static block<br>MyChild1 static block<br>welcome mychild1</p>
+<p>对于静态字段来说， 只有直接定义了该字段的类才会被初始化</p>
+<p>当一个类在初始化时， 要求其父类全部都已经初始化完毕了</p>
+<p>-XX:+TraceClassLoading, 用于追踪类的加载信息并打印出来</p>
+<p>-XX:+<option>, 表现开启option选项<br>-XX:-</option><option>,表示关闭option选项<br>-XX:</option><option>=<value>, 将option选项的值设置为value</value></option></p>
+<p><strong>例子2</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Mytest2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(MyParent2.str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyParent2</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String str = <span class="string">"hello world"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"MyParent2 static block"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出:</p>
+<p>hello world</p>
+<p><strong>解释:</strong></p>
+<p>常量在编译阶段会存入到调用这个常量的方法所在类的常量池中， 本质上， 调用类并没有直接引用到定义常量的累， 因此并不会出发定义常量的类的初始化</p>
+<p>注意: 这里指的是将常量存放到了MyTest2的常量池中， 之后MyTest2与MyParent2就没有任何关系了。甚至， 我们可以将MyParent2的class文件删除</p>
+<p><strong>助记符</strong></p>
+<ul>
+<li>ldc表示将int, float或者String类型的常量值从常量池中推送至栈顶</li>
+<li>bipush表示将单字节(-128-127)的常量值推送至栈顶</li>
+<li>sipush表示将一个短整型常量值(-32768-32767)推送至栈顶</li>
+<li>iconst_1表示将int类型1推送至栈顶, (iconst_1-iconst_5)</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjyy6jhdj000830umcztkuqus" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/03/深入理解jvm笔记/" data-id="cjyzueh6z0006tkumav49mvc3" class="article-share-link">Share</a>
       
       
     </footer>
